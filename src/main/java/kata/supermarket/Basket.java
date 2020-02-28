@@ -41,6 +41,15 @@ public class Basket {
                         .count();
     }
 
+    public BigDecimal getUnitPrice(ProductIdentifier product) {
+        return items().stream().filter(item -> item instanceof ItemByUnit)
+                        .map(item -> ((ItemByUnit) item))
+                        .filter(item -> product.equals(item.productIdentifier()))
+                        .findAny()
+                        .map(ItemByUnit::price)
+                        .orElse(BigDecimal.ZERO);
+    }
+
     private class TotalCalculator {
         private final List<Item> items;
 
