@@ -1,11 +1,13 @@
 package kata.supermarket;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.stream.Stream;
@@ -83,5 +85,33 @@ class BasketTest {
 
     private static Item twoHundredGramsOfPickAndMix() {
         return aKiloOfPickAndMix().weighing(new BigDecimal(".2"));
+    }
+
+    @Test
+    void basketReturnsZeroForNoUnitProducts() {
+        assertEquals(0, new Basket().getProductUnits(MILK_PRODUCT));
+    }
+
+    @Test
+    void basketReturnsZeroForNoWeightedProducts() {
+        assertEquals(BigDecimal.ZERO, new Basket().getProductWeight(MILK_PRODUCT));
+    }
+
+    @Test
+    void basketCountsUnitProducts() {
+            Basket basket = new Basket();
+            basket.add(aPackOfDigestives());
+            basket.add(aPackOfDigestives());
+            assertEquals(2, basket.getProductUnits(DIGESTIVES_PRODUCT));
+    }
+
+    @Test
+    void basketWeightsProducts() {
+        Basket basket = new Basket();
+        basket.add(twoFiftyGramsOfAmericanSweets());
+        basket.add(twoFiftyGramsOfAmericanSweets());
+        BigDecimal result = basket.getProductWeight(AMERICAN_SWEETS_PRODUCT);
+        assertEquals(new BigDecimal(".5").setScale(2, RoundingMode.HALF_UP),
+                        basket.getProductWeight(AMERICAN_SWEETS_PRODUCT).setScale(2, RoundingMode.HALF_UP));
     }
 }

@@ -17,6 +17,10 @@ public class ItemByWeight implements Item {
     }
 
     @Override public ProductIdentifier productIdentifier() {
-        return null;
+        return product.getProductIdentifier();
+    }
+
+    public BigDecimal getWeightInKilos() {
+        return weightInKilos;
     }
 }

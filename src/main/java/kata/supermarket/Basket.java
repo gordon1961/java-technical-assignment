@@ -25,6 +25,22 @@ public class Basket {
         return new TotalCalculator().calculate();
     }
 
+    public BigDecimal getProductWeight(ProductIdentifier product) {
+        return items().stream().filter(item ->item instanceof ItemByWeight)
+                        .map( item -> ((ItemByWeight)item))
+                        .filter( item -> product.equals(item.productIdentifier()))
+                        .map(ItemByWeight::getWeightInKilos)
+                        .reduce(BigDecimal::add)
+                        .orElse(BigDecimal.ZERO);
+    }
+
+    public long getProductUnits(ProductIdentifier product) {
+        return items().stream().filter(item -> item instanceof ItemByUnit)
+                        .map(item -> ((ItemByUnit) item))
+                        .filter(item -> product.equals(item.productIdentifier()))
+                        .count();
+    }
+
     private class TotalCalculator {
         private final List<Item> items;
 
