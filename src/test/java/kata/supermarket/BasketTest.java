@@ -105,6 +105,7 @@ class BasketTest {
             assertEquals(2, basket.getProductUnits(DIGESTIVES_PRODUCT));
     }
 
+
     @Test
     void basketWeightsProducts() {
         Basket basket = new Basket();
@@ -113,5 +114,13 @@ class BasketTest {
         BigDecimal result = basket.getProductWeight(AMERICAN_SWEETS_PRODUCT);
         assertEquals(new BigDecimal(".5").setScale(2, RoundingMode.HALF_UP),
                         basket.getProductWeight(AMERICAN_SWEETS_PRODUCT).setScale(2, RoundingMode.HALF_UP));
+    }
+
+    @Test
+    void basketUnitPrice() {
+        Basket basket = new Basket();
+        basket.add(aPackOfDigestives());
+        basket.add(aPackOfDigestives());
+        assertEquals(new BigDecimal("1.55"), basket.getUnitPrice(DIGESTIVES_PRODUCT));
     }
 }
