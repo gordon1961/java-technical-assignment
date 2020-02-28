@@ -14,6 +14,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BasketTest {
 
+    private static ProductIdentifier MILK_PRODUCT = new ProductIdentifier("milk","dairy");
+    private static ProductIdentifier DIGESTIVES_PRODUCT = new ProductIdentifier("digestives","biscuits");
+    private static ProductIdentifier AMERICAN_SWEETS_PRODUCT = new ProductIdentifier("american sweets","sweets");
+    private static ProductIdentifier PICK_AND_MIX_PRODUCT = new ProductIdentifier("pick and mix","sweets");
+
     @DisplayName("basket provides its total value when containing...")
     @MethodSource
     @ParameterizedTest(name = "{0}")
@@ -57,15 +62,15 @@ class BasketTest {
     }
 
     private static Item aPintOfMilk() {
-        return new Product(new BigDecimal("0.49")).oneOf();
+        return new UnitProduct(new BigDecimal("0.49"),MILK_PRODUCT).oneOf();
     }
 
     private static Item aPackOfDigestives() {
-        return new Product(new BigDecimal("1.55")).oneOf();
+        return new UnitProduct(new BigDecimal("1.55"),DIGESTIVES_PRODUCT).oneOf();
     }
 
     private static WeighedProduct aKiloOfAmericanSweets() {
-        return new WeighedProduct(new BigDecimal("4.99"));
+        return new WeighedProduct(new BigDecimal("4.99"),AMERICAN_SWEETS_PRODUCT);
     }
 
     private static Item twoFiftyGramsOfAmericanSweets() {
@@ -73,7 +78,7 @@ class BasketTest {
     }
 
     private static WeighedProduct aKiloOfPickAndMix() {
-        return new WeighedProduct(new BigDecimal("2.99"));
+        return new WeighedProduct(new BigDecimal("2.99"),PICK_AND_MIX_PRODUCT);
     }
 
     private static Item twoHundredGramsOfPickAndMix() {
